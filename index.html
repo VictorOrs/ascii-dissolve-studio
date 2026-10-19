@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ASCII Dissolve — from image to character</title><meta name="description" content="Transform your images with a progressive ASCII gradient, an adjustable threshold and a Matrix effect. Export PNG files locally."><link rel="stylesheet" href="style.css?v=12"></head>
+<body>
+<header><a class="brand" href="./"><span class="mark">a<span>≋</span></span> ASCII<span class="muted">/</span>DISSOLVE</a><nav class="studio-nav" aria-label="Tools"><a href="./" aria-current="page">Images</a><a href="./transition/">Transitions</a></nav><span class="status"><i></i> LOCAL STUDIO</span></header>
+<main>
+<section class="intro"><div><p class="eyebrow">VISUAL EXPLORATION / 001</p><h1>The image dissolves.<br><span>The code emerges.</span></h1></div><p class="intro-note">An intact image. An organic transition.<br>Thousands of characters.<br><span>Create your ASCII gradient.</span></p></section>
+<div class="workspace">
+<aside>
+<div class="panel-head"><span>SETTINGS</span><button id="reset" class="text-btn">Reset ↺</button></div>
+<label class="upload" id="drop"><input id="file" type="file" accept="image/*"><span class="upload-icon">↥</span><strong>Upload an image</strong><small>or drop a file here · PNG, JPG, WebP</small></label>
+<div class="file-row"><span id="filename">demo-landscape</span><button id="demo" class="text-btn">Demo ↗</button></div>
+<div class="background-control"><label class="select-label" for="backgroundHex">Background color</label><div class="color-fields"><input id="backgroundPicker" type="color" value="#111111" aria-label="Choose the background color"><input id="backgroundHex" type="text" value="#111111" maxlength="7" spellcheck="false" autocomplete="off" aria-describedby="backgroundHelp"></div><small id="backgroundHelp">Hex color · e.g. #111111</small></div>
+<div class="section-label"><span>01</span> THE GRADIENT</div>
+<label class="select-label" for="shape">Gradient shape</label><select id="shape"><option value="linear">Linear</option><option value="diagonal">Diagonal</option><option value="radial">Radial / elliptical</option><option value="wave">Wave</option></select>
+<p class="shape-hint">Click the preview to position the gradient.</p>
+<div class="control" id="angleControl"><label for="angle">Orientation <output id="angleOut"></output></label><input id="angle" type="range" min="0" max="360" value="0"><div class="range-notes"><span>0° ↓ · 90° →</span><span>180° ↑ · 270° ←</span></div></div>
+<div class="position-controls"><div class="control"><label for="posX">Position X <output id="posXOut"></output></label><input id="posX" type="range" min="0" max="100" value="50"></div><div class="control"><label for="posY">Position Y <output id="posYOut"></output></label><input id="posY" type="range" min="0" max="100" value="50"></div></div>
+<div class="control" id="radiusControl" hidden><label for="radius">Radius <output id="radiusOut"></output></label><input id="radius" type="range" min="25" max="200" value="100"></div>
+<div class="control" id="flattenControl" hidden><label for="flatten">Flattening <output id="flattenOut"></output></label><input id="flatten" type="range" min="-80" max="80" step="5" value="0"><div class="range-notes"><span>Vertical ellipse</span><span>Circle at center</span><span>Horizontal</span></div></div>
+<div id="waveControls" hidden><div class="control"><label for="amplitude">Wave amplitude <output id="amplitudeOut"></output></label><input id="amplitude" type="range" min="0" max="40" value="15"></div><div class="control"><label for="frequency">Wave count <output id="frequencyOut"></output></label><input id="frequency" type="range" min="1" max="6" value="2"></div></div>
+<label class="switch-row" for="invert"><span>Reverse gradient<small>Swap the intact image and dissolve effect</small></span><input type="checkbox" id="invert" role="switch"></label>
+<div class="control"><label for="start">Transformation start <output id="startOut"></output></label><input id="start" type="range" min="0" max="90" value="22"><div class="range-notes"><span>Gradient start</span><span>End</span></div></div>
+<div class="control"><label for="end">Fade to background color <output id="endOut"></output></label><input id="end" type="range" min="1" max="100" value="92"></div>
+<div class="control"><label for="curve">Threshold curve <output id="curveOut"></output></label><input id="curve" type="range" min="30" max="300" value="110"><div class="range-notes"><span>Quick reveal</span><span>Gradual</span></div></div>
+<div class="threshold"><div><span>THRESHOLD / DISTANCE</span><span>0 → 100 %</span></div><canvas id="graph" width="280" height="60" aria-label="Gradual threshold curve"></canvas></div>
+<div class="section-label"><span>02</span> THE ASCII TEXTURE</div>
+<div class="control"><label for="intensity">Character intensity <output id="intensityOut"></output></label><input id="intensity" type="range" min="0" max="300" step="5" value="100"><div class="range-notes"><span>Subtle</span><span>Bold</span></div></div>
+<div class="control"><label for="size">Character size <output id="sizeOut"></output></label><input id="size" type="range" min="5" max="22" value="9"></div>
+<div class="control"><label for="noise">Vertical trails <output id="noiseOut"></output></label><input id="noise" type="range" min="0" max="100" value="55"></div>
+<div class="control"><label for="cuts">Trail breaks <output id="cutsOut"></output></label><input id="cuts" type="range" min="0" max="100" value="35"></div>
+<label class="select-label" for="palette">Character palette</label><select id="palette"><option value="classic">Classic · . : + * # @</option><option value="code">Code · 01 / &lt; &gt; { }</option><option value="dense">Dense · ░ ▒ ▓ █</option><option value="katakana">Katakana · ｱ ｲ ｳ ｴ ｵ</option></select>
+<div class="modes" role="group" aria-label="ASCII color"><button data-mode="original" class="active" aria-pressed="true">Colors</button><button data-mode="white" aria-pressed="false">White</button><button data-mode="matrix" aria-pressed="false"><i></i> Matrix</button></div>
+<div class="background-control" id="characterColorControl" hidden><label class="select-label" for="characterHex">ASCII character color</label><div class="color-fields"><input id="characterPicker" type="color" value="#ffffff" aria-label="Choose the ASCII character color"><input id="characterHex" type="text" value="#ffffff" maxlength="7" spellcheck="false" autocomplete="off" aria-describedby="characterHelp"></div><small id="characterHelp">White mode color.</small></div>
+<label class="switch-row" for="animate"><span>Animate characters<small>A subtle digital flicker</small></span><input type="checkbox" id="animate" role="switch"></label>
+<div class="section-label"><span>03</span> EXPORT</div>
+<div class="control"><label for="loopDuration">Loop duration <output id="loopDurationOut">4 s</output></label><input id="loopDuration" type="range" min="2" max="12" step="1" value="4"><div class="range-notes"><span>2 seconds</span><span>12 seconds</span></div></div>
+<button id="exportVideo" class="export video-export">Export MP4 loop <span>↗</span></button><p class="video-hint">Animation included · 24 fps · up to 1280 px · no audio.<br>Seamless loop; enable repeat playback in your player.</p>
+<div id="videoProgress" hidden><progress id="videoProgressBar" max="100" value="0" aria-label="MP4 export progress"></progress><p id="videoStatus" role="status" aria-live="polite"></p><button id="cancelVideo" class="text-btn">Cancel export</button></div>
+<button id="export" class="export">Export PNG <span>↗</span></button><button id="textExport" class="text-export">Download ASCII text (.txt)</button>
+<p class="privacy">Your images stay in your browser.</p>
+</aside>
+<section class="preview-panel"><div class="preview-toolbar"><div><i></i> LIVE PREVIEW</div><div class="view-toggle"><button id="effectView" class="active" aria-pressed="true">ASCII gradient</button><button id="sourceView" aria-pressed="false">Original</button></div></div><div class="canvas-space" id="canvasSpace"><canvas id="result" aria-label="Preview of the image transformed into ASCII"></canvas><span class="vertical-label">REALITY</span><span class="vertical-label bottom">CODE</span></div><div class="preview-footer"><span id="dimensions"></span><span id="cellCount"></span><span>RENDER / CANVAS 2D</span></div><div class="explanation"><span class="asterisk">✳</span><div><strong>A threshold that follows the gradient.</strong><p>Choose the shape, orientation and position of your gradient. The trails gently dissolve into the background color <span id="backgroundCode">#111111</span>.</p></div><span class="sample">. : + * # @</span></div></section>
+</div><div id="toast" role="status" aria-live="polite"></div>
+<footer><span>ASCII DISSOLVE / CREATIVE TOOL</span><span>The boundary between pixels and characters.</span></footer>
+</main><script src="vendor/mp4-muxer.js"></script><script src="app.js?v=11"></script></body></html>
